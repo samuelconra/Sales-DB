@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: hans-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-hans_db}
+      POSTGRES_USER: ${DB_USER:-hans_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-hans_password}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/scripts/genesis.sql:/docker-entrypoint-initdb.d/genesis.sql:ro
+      - ./sql/scripts/seeder.sql:/docker-entrypoint-initdb.d/seeder.sql:ro
+    networks:
+      - hans-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-hans_user} -d ${DB_NAME:-hans_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  hans-network:
+    driver: bridge
