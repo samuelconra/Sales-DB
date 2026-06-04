@@ -1,0 +1,4 @@
+# ETL runtime dependencies (Python 3.9+)
+psycopg[binary]>=3.2,<4  # PostgreSQL driver (psycopg 3; ships wheels for new Pythons)
+python-dotenv==1.0.1     # load etl/.env into the environment
+pytest==8.2.0            # unit tests (transform layer)

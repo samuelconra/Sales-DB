@@ -10,8 +10,8 @@ services:
       - "${DB_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./sql/scripts/genesis.sql:/docker-entrypoint-initdb.d/genesis.sql:ro
-      - ./sql/scripts/seeder.sql:/docker-entrypoint-initdb.d/seeder.sql:ro
+      - ./scripts/genesis.sql:/docker-entrypoint-initdb.d/genesis.sql:ro
+      - ./scripts/seeder.sql:/docker-entrypoint-initdb.d/seeder.sql:ro
     networks:
       - hans-network
     healthcheck:
